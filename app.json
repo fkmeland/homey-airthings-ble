@@ -114,6 +114,9 @@
       "platforms": [
         "local"
       ],
+      "connectivity": [
+        "ble"
+      ],
       "class": "sensor",
       "capabilities": [
         "measure_radon",
@@ -211,6 +214,9 @@
       "platforms": [
         "local"
       ],
+      "connectivity": [
+        "ble"
+      ],
       "class": "sensor",
       "capabilities": [
         "measure_radon",
@@ -304,6 +310,9 @@
       },
       "platforms": [
         "local"
+      ],
+      "connectivity": [
+        "ble"
       ],
       "class": "sensor",
       "capabilities": [

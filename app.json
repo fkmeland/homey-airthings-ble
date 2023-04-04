@@ -51,6 +51,9 @@
       }
     ]
   },
+  "platforms": [
+    "local"
+  ],
   "contributing": {
     "donate": {
       "paypal": {
@@ -114,6 +117,9 @@
       "name": {
         "en": "Airthings Wave Plus"
       },
+      "platforms": [
+        "local"
+      ],
       "class": "sensor",
       "capabilities": [
         "measure_radon",
@@ -208,6 +214,9 @@
       "name": {
         "en": "Airthings Wave"
       },
+      "platforms": [
+        "local"
+      ],
       "class": "sensor",
       "capabilities": [
         "measure_radon",
@@ -299,6 +308,9 @@
       "name": {
         "en": "Airthings Mini"
       },
+      "platforms": [
+        "local"
+      ],
       "class": "sensor",
       "capabilities": [
         "measure_voc",

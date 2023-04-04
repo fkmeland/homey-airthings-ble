@@ -54,13 +54,7 @@
   "platforms": [
     "local"
   ],
-  "contributing": {
-    "donate": {
-      "paypal": {
-        "username": "anaxyd"
-      }
-    }
-  },
+  "support": "mailto:homey-airthings@drenso.nl",
   "capabilities": {
     "measure_radon": {
       "type": "number",

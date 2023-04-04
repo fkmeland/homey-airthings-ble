@@ -35,24 +35,23 @@ class WaveMiniDevice extends Homey.Device {
 				this.log('Got Values Mini');
 				this.log(result)
 
-				this.setCapabilityValue("measure_pressure", result.pressure);
-				this.setCapabilityValue("measure_humidity", result.humidity);
-				this.setCapabilityValue("measure_temperature", result.temperature);
-				this.setCapabilityValue("measure_voc", result.voc);
-				this.setCapabilityValue("measure_luminance", result.light);
+				this.setCapabilityValue("measure_pressure", result.pressure).catch(this.error);
+				this.setCapabilityValue("measure_humidity", result.humidity).catch(this.error);
+				this.setCapabilityValue("measure_temperature", result.temperature).catch(this.error);
+				this.setCapabilityValue("measure_voc", result.voc).catch(this.error);
+				this.setCapabilityValue("measure_luminance", result.light).catch(this.error);
 
-				this.setSettings({ rssi: result.rssi + ' db' });
+				this.setSettings({ rssi: result.rssi + ' db' }).catch(this.error);
 
 				this.log("Airthings Wave Mini sensor values updated");
 
-				this.setAvailable();
+				this.setAvailable().catch(this.error);
 
 				return Promise.resolve();
 
 			})
 			.catch(error => {
-				this.setUnavailable('Cannot get value:' + error);
-				new Error('Cannot get value:' + error);
+				this.setUnavailable('Cannot get value:' + error).catch(this.error);
 			});
 	}
 

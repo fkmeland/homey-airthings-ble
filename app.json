@@ -73,7 +73,6 @@
         "en": "bq"
       },
       "min": 0,
-      "max": 2000,
       "step": 1
     },
     "measure_radon_longterm": {
@@ -90,7 +89,6 @@
         "en": "bq"
       },
       "min": 0,
-      "max": 2000,
       "step": 1
     },
     "measure_voc": {
@@ -107,7 +105,6 @@
         "en": "ppb"
       },
       "min": 0,
-      "max": 2000,
       "step": 1
     }
   },

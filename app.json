@@ -1,11 +1,11 @@
 {
   "id": "com.airthings",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "compatibility": ">=1.5.0",
   "sdk": 2,
-  "brandColor": "#e5ac00",
+  "brandColor": "#42515A",
   "name": {
-    "en": "Airthings"
+    "en": "Airthings BLE (deprecated)"
   },
   "description": {
     "en": "BLE devices which measures radon, VOC, temperature and humidity."

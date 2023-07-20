@@ -39,7 +39,7 @@ class WaveDevice extends Homey.Device {
 				this.setCapabilityValue("measure_humidity", result.humidity).catch(this.error);
 				this.setCapabilityValue("measure_temperature", result.temperature).catch(this.error);
 				this.setCapabilityValue("measure_radon", result.shortTermRadon).catch(this.error);
-				this.setCapabilityValue("measure_radon", result.longTermRadon).catch(this.error);
+				this.setCapabilityValue("measure_radon_longterm", result.longTermRadon).catch(this.error);
 				this.setCapabilityValue("measure_luminance", result.light).catch(this.error);
 
 				this.setSettings({ rssi: result.rssi + ' db' }).catch(this.error);

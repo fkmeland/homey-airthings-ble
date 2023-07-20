@@ -11,7 +11,10 @@
   "description": {
     "en": "BLE devices which measures radon, VOC, temperature and humidity."
   },
-  "category": ["tools", "climate"],
+  "category": [
+    "tools",
+    "climate"
+  ],
   "tags": {
     "en": [
       "radon",
@@ -23,7 +26,9 @@
       "wave"
     ]
   },
-  "permissions": ["homey:wireless:ble"],
+  "permissions": [
+    "homey:wireless:ble"
+  ],
   "images": {
     "large": "/assets/images/large.png",
     "small": "/assets/images/small.png"
@@ -51,15 +56,21 @@
       }
     ]
   },
-  "platforms": ["local"],
+  "platforms": [
+    "local"
+  ],
   "support": "mailto:homey-airthings@drenso.nl",
   "drivers": [
     {
       "name": {
         "en": "Airthings Mini"
       },
-      "platforms": ["local"],
-      "connectivity": ["ble"],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "ble"
+      ],
       "class": "sensor",
       "capabilities": [
         "measure_voc",
@@ -68,7 +79,10 @@
         "measure_temperature"
       ],
       "energy": {
-        "batteries": ["AAA", "AAA"]
+        "batteries": [
+          "AAA",
+          "AAA"
+        ]
       },
       "pair": [
         {
@@ -149,8 +163,12 @@
       "name": {
         "en": "Airthings Wave"
       },
-      "platforms": ["local"],
-      "connectivity": ["ble"],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "ble"
+      ],
       "class": "sensor",
       "capabilities": [
         "measure_radon",
@@ -158,7 +176,10 @@
         "measure_temperature"
       ],
       "energy": {
-        "batteries": ["AAA", "AAA"]
+        "batteries": [
+          "AAA",
+          "AAA"
+        ]
       },
       "pair": [
         {
@@ -239,8 +260,12 @@
       "name": {
         "en": "Airthings Wave Plus"
       },
-      "platforms": ["local"],
-      "connectivity": ["ble"],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "ble"
+      ],
       "class": "sensor",
       "capabilities": [
         "measure_radon",
@@ -251,7 +276,10 @@
         "measure_co2"
       ],
       "energy": {
-        "batteries": ["AAA", "AAA"]
+        "batteries": [
+          "AAA",
+          "AAA"
+        ]
       },
       "pair": [
         {

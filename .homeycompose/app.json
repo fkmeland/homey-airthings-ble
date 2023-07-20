@@ -1,0 +1,58 @@
+{
+  "id": "com.airthings",
+  "version": "1.5.0",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "brandColor": "#e5ac00",
+  "name": {
+    "en": "Airthings"
+  },
+  "description": {
+    "en": "BLE devices which measures radon, VOC, temperature and humidity."
+  },
+  "category": [
+    "tools",
+    "climate"
+  ],
+  "tags": {
+    "en": [
+      "radon",
+      "radon sensor",
+      "airthings",
+      "airthings wave plus",
+      "airthings wave",
+      "wave plus",
+      "wave"
+    ]
+  },
+  "permissions": [
+    "homey:wireless:ble"
+  ],
+  "images": {
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png"
+  },
+  "author": {
+    "name": "CRUDE AS / Vegard Brenden",
+    "email": "anaxyd@gmail.com"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "CRUDE AS / Vegard Brenden",
+        "email": "vegard@crude.no"
+      },
+      {
+        "name": "Airthings AS / Ole Andreas Torvmark",
+        "email": "ole.torvmark@airthings.com"
+      },
+      {
+        "name": "MadMonkey87"
+      }
+    ]
+  },
+  "platforms": [
+    "local"
+  ],
+  "support": "mailto:homey-airthings@drenso.nl"
+}

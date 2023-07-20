@@ -3,7 +3,7 @@
 const Homey = require('homey');
 
 class WavePlusDevice extends Homey.Device {
-	
+
 	onInit() {
 		this.log('WavePlusDevice has been inited');
 
@@ -16,8 +16,8 @@ class WavePlusDevice extends Homey.Device {
 		this.log(pollInterval);
 		const POLL_INTERVAL = 1000 * 60 * pollInterval; // default 30 minutes
 
-        // Run poll at init
-        this.poll();
+		// Run poll at init
+		this.poll();
 
 		setInterval(this.poll.bind(this), POLL_INTERVAL);
 
@@ -31,7 +31,7 @@ class WavePlusDevice extends Homey.Device {
 		const settings = this.getSettings();
 		const pollTimeout = settings.pollTimeout;
 
-		Homey.app.getWavePlusValues(macAddress, pollTimeout)
+		this.homey.app.getWavePlusValues(macAddress, pollTimeout)
 			.then(result => {
 				this.log(result);
 
@@ -58,7 +58,7 @@ class WavePlusDevice extends Homey.Device {
 			});
 	}
 
-	
+
 }
 
 module.exports = WavePlusDevice;

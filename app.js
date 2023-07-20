@@ -1,7 +1,7 @@
 'use strict';
 
 const Homey = require('homey');
-const bufferpack = require('/lib/bufferpack.js');
+const bufferpack = require('./lib/bufferpack');
 
 /*
 	Notes etc
@@ -18,66 +18,64 @@ const bufferpack = require('/lib/bufferpack.js');
 */
 
 class AirthingsApp extends Homey.App {
-	
+
 	async onInit() {
 		this.log('AirthingsApp is running...!');
-		
+
 	}
 
 	getWaveValues(macAddress, pollTimeout) {
-		return new Promise(async(resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 
 			this.log(macAddress)
 			this.log(pollTimeout)
 
 			let timeout = pollTimeout * 1000;
 
-			const ble = Homey.ManagerBLE;
-
 			try {
-				this.log('Searching for: !',macAddress);
-				const advertisement = await ble.find(macAddress, timeout);
-				this.log('Found: !',macAddress);
+				this.log('Searching for: !', macAddress);
+				const advertisement = await this.homey.ble.find(macAddress, timeout);
+				this.log('Found: !', macAddress);
 				await this.sleep(1000);
-				
+
 				const peripheral = await advertisement.connect();
 				const rssi = peripheral.rssi;
 				await this.sleep(1000);
-				this.log('Connected !',macAddress);
+				this.log('Connected !', macAddress);
 				const services = await peripheral.discoverAllServicesAndCharacteristics();
-				this.log('Services Discovered !',macAddress);
+				this.log('Services Discovered !', macAddress);
 				const dataService = await services.find(service => service.uuid === "b42e1f6eade711e489d3123b93f75cba");
 				const characteristics = await dataService.discoverCharacteristics();
-				
+
 				//Radon Short Term Average
 				const staDataChar = await characteristics.find(characteristic => characteristic.uuid === "b42e01aaade711e489d3123b93f75cba");
-				const staData = await staDataChar.read();
-				
+				const staData = staDataChar && await staDataChar.read();
+
 				//Radon Long Term Average
-				const ltaDataChar = await characteristics.find(characteristic => characteristic.uuid === "b42e0a4cade711e489d3123b93f75cba"); 
-				const ltaData = await ltaDataChar.read();
+				const ltaDataChar = await characteristics.find(characteristic => characteristic.uuid === "b42e0a4cade711e489d3123b93f75cba");
+				const ltaData = ltaDataChar && await ltaDataChar.read();
 
 				//Temperature
-				const tempDataChar = await characteristics.find(characteristic => characteristic.uuid === "2a6e");
-				const tempData = await tempDataChar.read();
+				const tempDataChar = await characteristics.find(characteristic => characteristic.uuid === "00002a0800001000800000805f9b34fb");
+				const tempData = tempDataChar && await tempDataChar.read();
 
 				//Humidity
-				const humDataChar = await characteristics.find(characteristic => characteristic.uuid === "2a6f");
-				const humData = await humDataChar.read();
+				const humDataChar = await characteristics.find(characteristic => characteristic.uuid === "00002a6f00001000800000805f9b34fb");
+				const humData = humDataChar && await humDataChar.read();
 
-				//ALS + Light
+				//ALS + Light // 00002a0800001000800000805f9b34fb
 				const alsDataChar = await characteristics.find(characteristic => characteristic.uuid == "b42e1096ade711e489d3123b93f75cba")
-				const alsData = await alsDataChar.read();
+				const alsData = alsDataChar && await alsDataChar.read();
 
 				await peripheral.disconnect();
 
 				const format = "<h";
-				const sensorSTA = bufferpack.unpack(format, staData)[0];
-				const sensorLTA = bufferpack.unpack(format, ltaData)[0];
-				const sensorTemperature = bufferpack.unpack(format, tempData)[0];
-				const sensorHumidity = bufferpack.unpack(format, humData)[0];
+				const sensorSTA = staData ? bufferpack.unpack(format, staData)[0] : 0;
+				const sensorLTA = ltaData ? bufferpack.unpack(format, ltaData)[0] : 0;
+				const sensorTemperature = tempData ? bufferpack.unpack(format, tempData)[0] : 0;
+				const sensorHumidity = humData ? bufferpack.unpack(format, humData)[0] : 0;
 				const formatTwo = "<B";
-				const sensorLight = bufferpack.unpack(formatTwo, alsData)[0] & 0xf0;
+				const sensorLight = alsData ? bufferpack.unpack(formatTwo, alsData)[0] & 0xf0 : 0;
 
 
 				// This is the matching format for the binary data for unpacking.
@@ -89,7 +87,7 @@ class AirthingsApp extends Homey.App {
 				// Example:
 				// [ 81, 0, 10, 0, 2387, 48689, 366, 116 ]
 				// Some of the values requires minor math to get correct values
-				
+
 				let sensorValues = {
 					humidity: sensorHumidity / 100,
 					light: sensorLight,
@@ -98,32 +96,30 @@ class AirthingsApp extends Homey.App {
 					temperature: sensorTemperature / 100,
 					rssi: rssi
 				}
-				
+
 				resolve(sensorValues)
 
 			} catch (error) {
 				reject(error)
 			}
-			
+
 		})
 	}
 	getWavePlusValues(macAddress, pollTimeout) {
-		return new Promise(async(resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 
 			this.log(macAddress)
 			this.log(pollTimeout)
 
-			let timeout = pollTimeout*1000;
-
-			const ble = Homey.ManagerBLE;
+			let timeout = pollTimeout * 1000;
 
 			try {
-				const advertisement = await ble.find(macAddress, timeout);
+				const advertisement = await this.homey.ble.find(macAddress, timeout);
 				const peripheral = await advertisement.connect();
 				const rssi = peripheral.rssi;
-				this.log('Connected !',macAddress);
+				this.log('Connected !', macAddress);
 				const services = await peripheral.discoverAllServicesAndCharacteristics();
-				this.log('Services Discovered !',macAddress);
+				this.log('Services Discovered !', macAddress);
 				const dataService = await services.find(service => service.uuid === "b42e1c08ade711e489d3123b93f75cba");
 				const characteristics = await dataService.discoverCharacteristics();
 				const data = await characteristics.find(characteristic => characteristic.uuid === "b42e2a68ade711e489d3123b93f75cba");
@@ -157,26 +153,24 @@ class AirthingsApp extends Homey.App {
 			} catch (error) {
 				reject(error)
 			}
-			
+
 		})
 	}
 	getWaveMiniValues(macAddress, pollTimeout) {
-		return new Promise(async(resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 
 			this.log(macAddress)
 			this.log(pollTimeout)
 
-			let timeout = pollTimeout*1000;
-
-			const ble = Homey.ManagerBLE;
+			let timeout = pollTimeout * 1000;
 
 			try {
-				const advertisement = await ble.find(macAddress, timeout);
+				const advertisement = await this.homey.ble.find(macAddress, timeout);
 				const peripheral = await advertisement.connect();
 				const rssi = peripheral.rssi;
-				this.log('Connected To Mini !',macAddress);
+				this.log('Connected To Mini !', macAddress);
 				const services = await peripheral.discoverAllServicesAndCharacteristics();
-				this.log('Services Discovered Mini !',macAddress);
+				this.log('Services Discovered Mini !', macAddress);
 				const dataService = await services.find(service => service.uuid === "b42e3882ade711e489d3123b93f75cba");
 				const characteristics = await dataService.discoverCharacteristics();
 				const data = await characteristics.find(characteristic => characteristic.uuid === "b42e3b98ade711e489d3123b93f75cba");
@@ -206,26 +200,24 @@ class AirthingsApp extends Homey.App {
 			} catch (error) {
 				reject(error)
 			}
-			
+
 		})
 	}
-	sleep(ms){
-		return new Promise(resolve=>{
-			setTimeout(resolve,ms)
+	sleep(ms) {
+		return new Promise(resolve => {
+			setTimeout(resolve, ms)
 		})
 	}
 	discoverWaveDevices(driver) {
-		return new Promise(async(resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 
 			this.log("Searching for Airthings Wave devices...")
 			const timeout = 29000;
 
-			const ble = Homey.ManagerBLE;
-
 			try {
 				let devices = [];
 				// Wave : b42e1f6eade711e489d3123b93f75cba
-				const foundDevices = await ble.discover(['b42e1f6eade711e489d3123b93f75cba'], timeout);
+				const foundDevices = await this.homey.ble.discover(['b42e1f6eade711e489d3123b93f75cba'], timeout);
 
 				foundDevices.forEach(device => {
 					const format = "<xxIxx";
@@ -247,17 +239,17 @@ class AirthingsApp extends Homey.App {
 		});
 	}
 	discoverWavePlusDevices(driver) {
-		return new Promise(async(resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 
 			this.log("Searching for Airthings Wave Plus devices...")
 			const timeout = 29000;
 
-			const ble = Homey.ManagerBLE;
-
 			try {
 				let devices = [];
 				// Wave + : b42e1c08ade711e489d3123b93f75cba
-				const foundDevices = await ble.discover(['b42e1c08ade711e489d3123b93f75cba'], timeout);
+				const foundDevices = await this.homey.ble.discover(['b42e1c08ade711e489d3123b93f75cba'], timeout);
+
+				this.log(foundDevices);
 
 				foundDevices.forEach(device => {
 					const format = "<xxIxx";
@@ -279,17 +271,15 @@ class AirthingsApp extends Homey.App {
 		});
 	}
 	discoverWaveMiniDevices(driver) {
-		return new Promise(async(resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 
 			this.log("Searching for Airthings Wave Mini devices...")
 			const timeout = 29000;
 
-			const ble = Homey.ManagerBLE;
-
 			try {
 				let devices = [];
 				// Wave + : b42e3882ade711e489d3123b93f75cba
-				const foundDevices = await ble.discover(['b42e3882ade711e489d3123b93f75cba'], timeout);
+				const foundDevices = await this.homey.ble.discover(['b42e3882ade711e489d3123b93f75cba'], timeout);
 
 				foundDevices.forEach(device => {
 					const format = "<xxIxx";

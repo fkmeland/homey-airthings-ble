@@ -30,7 +30,7 @@ class WaveMiniDevice extends Homey.Device {
 		const settings = this.getSettings();
 		const pollTimeout = settings.pollTimeout;
 
-		Homey.app.getWaveMiniValues(macAddress, pollTimeout)
+		this.homey.app.getWaveMiniValues(macAddress, pollTimeout)
 			.then(result => {
 				this.log('Got Values Mini');
 				this.log(result)

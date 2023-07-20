@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Radon (Short Term)"
+  },
+  "icon": "/assets/radon.svg",
+  "insights": true,
+  "uiComponent": "sensor",
+  "getable": true,
+  "setable": false,
+  "units": {
+    "en": "bq"
+  },
+  "min": 0,
+  "step": 1
+}

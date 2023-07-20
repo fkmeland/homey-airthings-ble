@@ -3,11 +3,11 @@
 const Homey = require('homey');
 
 class WaveDevice extends Homey.Device {
-	
+
 	onInit() {
 		this.log('WaveDevice has been inited');
 
-		
+
 		// needed if the device was created with app version <=1.2.1
 		this.addCapability("measure_radon_longterm");
 		this.addCapability("measure_luminance");
@@ -17,8 +17,8 @@ class WaveDevice extends Homey.Device {
 		this.log(pollInterval);
 		const POLL_INTERVAL = 1000 * 60 * pollInterval; // default 30 minutes
 
-        // Run poll at init
-        this.poll();
+		// Run poll at init
+		this.poll();
 
 		setInterval(this.poll.bind(this), POLL_INTERVAL);
 
@@ -32,7 +32,7 @@ class WaveDevice extends Homey.Device {
 		const settings = this.getSettings();
 		const pollTimeout = settings.pollTimeout;
 
-		Homey.app.getWaveValues(macAddress, pollTimeout)
+		this.homey.app.getWaveValues(macAddress, pollTimeout)
 			.then(result => {
 				this.log(result)
 
@@ -56,7 +56,7 @@ class WaveDevice extends Homey.Device {
 			});
 	}
 
-	
+
 }
 
 module.exports = WaveDevice;

@@ -56,7 +56,7 @@ class AirthingsApp extends Homey.App {
 				const ltaData = ltaDataChar && await ltaDataChar.read();
 
 				//Temperature
-				const tempDataChar = await characteristics.find(characteristic => characteristic.uuid === "00002a0800001000800000805f9b34fb");
+				const tempDataChar = await characteristics.find(characteristic => characteristic.uuid === "00002a6e00001000800000805f9b34fb");
 				const tempData = tempDataChar && await tempDataChar.read();
 
 				//Humidity
